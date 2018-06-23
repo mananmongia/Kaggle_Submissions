@@ -1,6 +1,6 @@
 # ANN
 # Importing the dataset
-setwd("~/Desktop/ann kaggle")
+setwd("~/Desktop/Untitled Folder 3/titanic_1st_quesstion")
 titanic.train = read.csv('train.csv',header = TRUE, stringsAsFactors = FALSE)
 titanic.test = read.csv('test.csv',header = TRUE, stringsAsFactors = FALSE)
 
@@ -60,14 +60,12 @@ titanic.train = titanic.full[titanic.full$IsTrainSet == TRUE,]
 titanic.test = titanic.full[titanic.full$IsTrainSet == FALSE,]
 titanic.train$Survived = as.factor(titanic.train$Survived)
 survived.formula = as.formula("Survived ~ Pclass + Sex + Age + SibSp + Parch + Fare + Embarked")
-install.packages('e1071')
+library(dplyr)
+titanic.test = select(titanic.test, -Survived)
+# install.packages('e1071')
 library(e1071)
-titanic.model = svm(Survived ~ Pclass + Sex + Age + SibSp + Fare + Parch +
-                      Embarked, data = titanic.train, probability = TRUE,
-                    kernel = "radial")
-
-
-
+titanic.model=svm(Survived ~ Pclass + Sex + Age + SibSp + Fare + Parch +
+                    Embarked, data = titanic.train, probability = TRUE)
 survived = predict(titanic.model, newdata = titanic.test) 
 PassengerId = titanic.test$PassengerId
 out.df = as.data.frame(PassengerId)
