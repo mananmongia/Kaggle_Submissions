@@ -1,4 +1,4 @@
-# ANN
+# Titanic in R
 # Importing the dataset
 setwd("~/Desktop/Untitled Folder 3/titanic_1st_quesstion")
 titanic.train = read.csv('train.csv',header = TRUE, stringsAsFactors = FALSE)
@@ -21,34 +21,17 @@ fare.row = titanic.full[is.na(titanic.full$Fare),
 fare.prediction = predict(fare.model,newdata = fare.row)
 titanic.full[is.na(titanic.full$Fare),'Fare'] = fare.prediction
 # titanic.full[is.na(titanic.full$Fare),"Fare"] = median(titanic.full$Fare, na.rm = TRUE)
-
-
-
-
-
-
-
-
-
 # find missing Age ---- educated guess
 ageupper.whisker = boxplot.stats(titanic.full$Age)$stats[5]
 ageoutlier.filter = titanic.full$Age < ageupper.whisker
 age.model = lm(formula = Age ~ Pclass + Sex + Fare + SibSp + Parch + Embarked,
                data = titanic.full[ageoutlier.filter,])
+
 # guess fare 
 age.row = titanic.full[is.na(titanic.full$Age),
                        c("Pclass", "Sex", "Fare", "SibSp", "Parch", "Embarked")]
 age.prediction = predict(age.model,newdata = age.row)
 titanic.full[is.na(titanic.full$Age),'Age'] = age.prediction
-
-
-
-
-
-
-
-
-
 
 # Categorical Casting
 titanic.full$Pclass = as.factor(titanic.full$Pclass)
